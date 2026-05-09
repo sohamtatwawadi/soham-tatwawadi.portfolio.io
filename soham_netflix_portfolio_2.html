@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Soham Tatwawadi — Product Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#E50914;--red2:#FF1A24;
+  --bg:#141414;--card:#1e1e1e;
+  --text:#fff;--text2:#b3b3b3;--text3:#6d6d6d;
+  --green:#46d369;
+  --bebas:'Bebas Neue',sans-serif;
+  --inter:'Inter',sans-serif;
+  --serif:'DM Serif Display',serif;
+}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%;scroll-behavior:auto}
+body{background:var(--bg);color:var(--text);font-family:var(--inter);overflow-x:hidden;cursor:auto;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:#000}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px}
+
+/* ══════════════════════════════
+   PROFILE SCREEN (login-style)
+   ══════════════════════════════ */
+#profile-screen{
+  position:fixed;inset:0;z-index:9000;
+  background:#141414;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:0;
+}
+#profile-screen .ps-logo{
+  font-family:var(--bebas);font-size:38px;letter-spacing:3px;
+  color:var(--red);margin-bottom:56px;
+}
+#profile-screen h1{
+  font-size:clamp(26px,4vw,34px);font-weight:400;
+  color:var(--text);margin-bottom:48px;letter-spacing:-.3px;
+  font-family:var(--inter);
+}
+.ps-profiles{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;margin-bottom:56px}
+.ps-profile{
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+  cursor:pointer;transition:transform .2s;
+}
+.ps-profile:hover{transform:scale(1.06)}
+.ps-avatar{
+  width:110px;height:110px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:44px;border:2px solid transparent;
+  transition:border-color .2s;overflow:hidden;position:relative;
+}
+.ps-profile:hover .ps-avatar{border-color:#fff}
+.ps-avatar-label{
+  font-size:14px;color:var(--text2);font-weight:400;
+  transition:color .2s;letter-spacing:.2px;
+}
+.ps-profile:hover .ps-avatar-label{color:#fff}
+/* recruiter profile highlight */
+.ps-profile.recruiter .ps-avatar{background:linear-gradient(135deg,#1a1a2e,#16213e)}
+.ps-profile.recruiter .ps-avatar::after{
+  content:'PM';font-family:var(--bebas);font-size:42px;
+  color:var(--red);letter-spacing:2px;
+}
+/* other profiles */
+.ps-profile.hiring .ps-avatar{background:linear-gradient(135deg,#1a0a0a,#3d1010);font-size:44px}
+.ps-profile.curious .ps-avatar{background:linear-gradient(135deg,#071a0c,#0c3518);font-size:44px}
+
+.ps-manage{
+  background:transparent;border:1px solid rgba(255,255,255,.35);
+  color:var(--text2);padding:10px 28px;font-size:13px;font-weight:500;
+  letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
+  transition:border-color .2s,color .2s;font-family:var(--inter);
+}
+.ps-manage:hover{border-color:#fff;color:#fff}
+
+/* Profile click ripple */
+.ps-profile{position:relative;overflow:visible}
+.ps-ripple{
+  position:absolute;
+  width:10px;height:10px;border-radius:50%;
+  background:rgba(229,9,20,.35);
+  transform:translate(-50%,-50%) scale(0);
+  animation:rippleOut .6s ease-out forwards;
+  pointer-events:none;top:50%;left:50%;
+}
+@keyframes rippleOut{
+  from{transform:translate(-50%,-50%) scale(0);opacity:1}
+  to{transform:translate(-50%,-50%) scale(18);opacity:0}
+}
+/* Profile hover lift */
+.ps-profile:hover{transform:scale(1.06) translateY(-4px)}
+.ps-profile:active{transform:scale(0.97)}
+
+/* ══════════════════════════════
+   MAIN PORTFOLIO (hidden until profile chosen)
+   ══════════════════════════════ */
+#main{display:none;opacity:0;transition:opacity .6s ease}
+#main.visible{opacity:1}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:60px;background:linear-gradient(180deg,rgba(0,0,0,.95) 0%,transparent 100%);transition:background .35s}
+.nav.solid{background:rgba(20,20,20,.97);backdrop-filter:blur(18px)}
+.nav-inner{display:flex;align-items:center;gap:28px}
+.nav-logo{font-family:var(--bebas);font-size:26px;letter-spacing:2px;color:var(--red)}
+.nav-links{display:flex;gap:20px;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:13px;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-profile-badge{display:flex;align-items:center;gap:8px;cursor:pointer}
+.nav-profile-icon{width:32px;height:32px;border-radius:4px;background:linear-gradient(135deg,#1a1a2e,#16213e);display:flex;align-items:center;justify-content:center;font-family:var(--bebas);font-size:13px;color:var(--red);letter-spacing:1px}
+.nav-profile-name{font-size:13px;color:var(--text2)}
+.nav-cta{background:var(--red);color:#fff;padding:7px 16px;border-radius:3px;font-size:12.5px;font-weight:600;text-decoration:none;transition:background .2s;white-space:nowrap}
+.nav-cta:hover{background:var(--red2)}
+@media(max-width:640px){.nav{padding:0 16px;height:52px}.nav-links{display:none}.nav-profile-name{display:none}}
+
+/* ══════════════════════════
+   HERO — Billboard
+   ══════════════════════════ */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  padding:80px 5% 0;overflow:hidden;
+}
+.hero-bg-anim{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 70% at 65% 40%,rgba(229,9,20,.06) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 50% at 80% 70%,rgba(70,86,180,.05) 0%,transparent 55%);
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 0%,transparent 100%);
+}
+.hero-vig{position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 0%,transparent 35%)}
+.hero-c{position:relative;z-index:2;max-width:680px;width:100%}
+.hero-layout{position:relative;z-index:2;display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:center;width:100%;max-width:1200px}
+@media(max-width:1000px){.hero-layout{grid-template-columns:1fr;gap:0}}
+
+/* status badge */
+.hero-status{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(70,211,105,.2);animation:sdot 2.5s ease infinite;flex-shrink:0}
+@keyframes sdot{0%,100%{box-shadow:0 0 0 3px rgba(70,211,105,.2)}50%{box-shadow:0 0 0 7px rgba(70,211,105,.04)}}
+.status-text{font-size:12px;font-weight:500;color:var(--text2);letter-spacing:.8px;text-transform:uppercase}
+.status-badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:2px;padding:3px 9px;border-radius:2px}
+
+.hero-name{
+  font-family:var(--bebas);
+  font-size:clamp(68px,12vw,148px);
+  line-height:.88;letter-spacing:3px;color:#fff;margin-bottom:14px;
+}
+.hero-name .outline{color:transparent;-webkit-text-stroke:1.5px rgba(229,9,20,.45)}
+.hero-name .solid{color:var(--red)}
+
+.hero-title-line{
+  font-family:var(--serif);font-style:italic;
+  font-size:clamp(16px,2.2vw,22px);color:var(--text2);
+  margin-bottom:18px;letter-spacing:.2px;
+}
+.hero-summary{
+  font-size:clamp(13.5px,1.8vw,15.5px);color:var(--text2);
+  line-height:1.85;max-width:560px;font-weight:300;margin-bottom:28px;
+}
+.hero-summary strong{color:#fff;font-weight:500}
+
+.hero-match{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.match-score{font-size:15px;font-weight:700;color:var(--green)}
+.match-badge{background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:3px 8px;border-radius:2px}
+.match-text{font-size:12px;color:var(--text2)}
+
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px}
+.btn-white{display:flex;align-items:center;gap:8px;background:#fff;color:#000;padding:12px 26px;border-radius:3px;font-size:14px;font-weight:700;text-decoration:none;transition:background .2s}
+.btn-white:hover{background:rgba(255,255,255,.85)}
+.btn-ghost{display:flex;align-items:center;gap:8px;background:rgba(109,109,110,.65);color:#fff;padding:12px 26px;border-radius:3px;font-size:14px;font-weight:600;text-decoration:none;backdrop-filter:blur(8px);transition:background .2s}
+.btn-ghost:hover{background:rgba(109,109,110,.45)}
+
+.hero-tags{display:flex;gap:10px;flex-wrap:wrap}
+.hero-tag{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:5px}
+.hero-tag::before{content:'';width:3px;height:3px;border-radius:50%;background:var(--text3)}
+
+
+/* ══════════════════════════════
+   HERO RIGHT PANEL — PM Dashboard
+   ══════════════════════════════ */
+.hero-panel{
+  position:relative;z-index:3;
+  opacity:0;transform:translateX(32px);
+}
+.hpanel-label{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--red);
+  margin-bottom:10px;display:flex;align-items:center;gap:8px;
+}
+.hpanel-label::before{
+  content:'';width:20px;height:1.5px;background:var(--red);
+}
+.hpanel-card{
+  background:rgba(20,20,20,0.92);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;
+  padding:22px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 32px 80px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.04);
+  position:relative;
+  overflow:hidden;
+}
+.hpanel-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(229,9,20,.4),transparent);
+}
+.hpanel-top{
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+.hpanel-avatar{
+  width:40px;height:40px;border-radius:8px;
+  background:linear-gradient(135deg,#1a1a2e,#16213e);
+  border:1px solid rgba(229,9,20,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--bebas);font-size:16px;color:var(--red);
+  letter-spacing:1px;flex-shrink:0;
+}
+.hpanel-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px;font-family:var(--inter)}
+.hpanel-role{font-size:10.5px;color:var(--text3)}
+.hpanel-status-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--green);margin-left:auto;flex-shrink:0;
+  box-shadow:0 0 0 3px rgba(70,211,105,.18);
+  animation:sdot 2.5s ease infinite;
+}
+.hpanel-metrics{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.hpanel-met{}
+.hpanel-met-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.hpanel-met-label{font-size:10.5px;color:var(--text3);font-weight:500}
+.hpanel-met-val{font-size:11px;font-weight:700;color:#fff;font-family:var(--inter)}
+.hpanel-bar{height:4px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.hpanel-bar-fill{height:100%;border-radius:100px;width:0;transition:width 1.4s cubic-bezier(.25,.46,.45,.94)}
+.hpb-green{background:linear-gradient(90deg,var(--green),rgba(70,211,105,.5))}
+.hpb-red{background:linear-gradient(90deg,var(--red),rgba(229,9,20,.5))}
+.hpb-blue{background:linear-gradient(90deg,#4f8aff,rgba(79,138,255,.5))}
+.hpanel-divider{height:1px;background:rgba(255,255,255,.06);margin:14px 0}
+.hpanel-section-label{font-size:9px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+.hpanel-modules{display:flex;flex-direction:column;gap:8px;margin-bottom:2px}
+.hpanel-module{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.03);border-radius:6px;
+  padding:8px 10px;border:1px solid rgba(255,255,255,.05);
+  transition:border-color .2s;
+}
+.hpanel-module:hover{border-color:rgba(229,9,20,.2)}
+.hpm-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--green);flex-shrink:0;
+  box-shadow:0 0 6px rgba(70,211,105,.6);
+}
+.hpm-name{font-size:12px;font-weight:600;color:#fff;margin-bottom:1px}
+.hpm-sub{font-size:10px;color:var(--text3)}
+.hpm-badge{
+  margin-left:auto;font-size:8.5px;font-weight:700;letter-spacing:1px;
+  padding:2px 7px;border-radius:3px;font-family:var(--inter);
+  flex-shrink:0;
+}
+.hpm-badge.live{background:rgba(70,211,105,.12);color:var(--green);border:1px solid rgba(70,211,105,.25)}
+.hpm-badge.shipped{background:rgba(229,9,20,.1);color:var(--red);border:1px solid rgba(229,9,20,.25)}
+/* Side projects ticker */
+.hpanel-side-projects{overflow:hidden;position:relative;height:36px}
+.hpanel-sp{position:relative}
+.hpsp-item{
+  display:flex;align-items:center;gap:10px;
+  position:absolute;top:0;left:0;right:0;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .4s ease,transform .4s ease;
+  pointer-events:none;
+}
+.hpsp-item.active-sp{opacity:1;transform:translateY(0);pointer-events:all}
+.hpsp-num{font-family:var(--bebas);font-size:18px;color:var(--red);line-height:1;flex-shrink:0;letter-spacing:1px}
+.hpsp-name{font-size:12px;font-weight:600;color:#fff;flex:1}
+.hpsp-tag{font-size:10px;color:var(--text3);white-space:nowrap}
+
+@media(max-width:1000px){.hero-panel{display:none}}
+
+/* ── TICKER ── */
+.ticker-wrap{background:rgba(0,0,0,.55);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);padding:16px 0;overflow:hidden;position:relative}
+.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
+.ticker-wrap::before{left:0;background:linear-gradient(90deg,var(--bg),transparent)}
+.ticker-wrap::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent)}
+.ticker-track{display:flex;width:max-content;animation:tick 30s linear infinite}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tick-item{display:flex;align-items:center;gap:10px;padding:0 36px;border-right:1px solid rgba(255,255,255,.07);white-space:nowrap;flex-shrink:0}
+.tick-val{font-family:var(--bebas);font-size:24px;color:var(--red);letter-spacing:1px;line-height:1}
+.tick-lbl{font-size:11px;color:var(--text3);letter-spacing:.3px;text-transform:uppercase;line-height:1.4}
+
+/* ══════════ METRICS ══════════ */
+.met-sec{padding:44px 5%}
+.sec-hd{display:flex;align-items:baseline;gap:12px;margin-bottom:28px;flex-wrap:wrap}
+.sec-hd h2{font-size:20px;font-weight:600;letter-spacing:-.2px}
+.sec-hd span{font-size:13px;color:var(--text3)}
+.met-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+@media(max-width:900px){.met-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.met-grid{grid-template-columns:repeat(2,1fr)}}
+.met-card{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:22px 14px;text-align:center;position:relative;overflow:hidden;transition:border-color .3s,transform .3s;opacity:0;transform:translateY(22px)}
+.met-card.vis{opacity:1;transform:none}
+.met-card:hover{border-color:rgba(229,9,20,.28);transform:translateY(-4px)}
+.met-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);opacity:0;transition:opacity .3s}
+.met-card:hover::before{opacity:1}
+.met-icon{font-size:20px;margin-bottom:10px;display:block}
+.met-num{font-family:var(--bebas);font-size:clamp(32px,4vw,46px);color:var(--red);line-height:1;letter-spacing:1px;margin-bottom:2px}
+.met-sfx{font-family:var(--bebas);font-size:clamp(16px,2.5vw,24px);color:rgba(229,9,20,.65)}
+.met-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px}
+.met-desc{font-size:10px;color:var(--text2);line-height:1.5}
+.met-bar-wrap{margin-top:10px;height:2px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+.met-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--red),rgba(229,9,20,.35));width:0%;transition:width 1.6s cubic-bezier(.25,.46,.45,.94)}
+
+/* ══════════ NF ROWS ══════════ */
+.nfsec{padding:32px 5%}
+.nfsec-title{font-size:clamp(16px,2.5vw,20px);font-weight:600;color:#fff;margin-bottom:14px;letter-spacing:-.2px;display:flex;align-items:center;gap:10px}
+.expl{font-size:13px;font-weight:500;color:#54b9c5;opacity:0;transition:opacity .2s;cursor:pointer}
+.nfsec:hover .expl{opacity:1}
+
+/* ═══════ HORIZONTAL SCROLL FIX ═══════
+   Key: container must NOT be overflow:hidden,
+   and body/html must not clip the row's overflow-y.
+   We use a wrapper with visible overflow-y and
+   overflow-x:auto on the row itself.
+*/
+.row-outer{
+  overflow:hidden; /* clips the row bottom padding visually */
+  padding-bottom:0;
+}
+.nfrow{
+  display:flex;
+  gap:6px;
+  overflow-x:scroll; /* always show scroll capability */
+  overflow-y:visible;
+  padding-bottom:44px;/* space for expansion popup */
+  margin-bottom:-44px;/* pull back so section height doesn't change */
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  cursor:grab;
+  user-select:none;
+}
+.nfrow::-webkit-scrollbar{display:none}
+.nfrow.dragging{cursor:grabbing}
+
+/* ── CARD WRAP ── */
+.cwrap{flex-shrink:0;position:relative}
+.nfcard{position:relative;border-radius:4px;overflow:hidden;background:var(--card);cursor:pointer;transition:transform .35s cubic-bezier(.25,.46,.45,.94),box-shadow .35s;will-change:transform}
+@media(hover:hover){.cwrap:hover{z-index:60}.cwrap:hover .nfcard{transform:scale(1.06) translateY(-8px);box-shadow:0 20px 60px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.08)}}
+
+/* ══════════════════════════════
+   PROJECT CARDS
+   ══════════════════════════════ */
+.proj-sz{width:260px;min-width:260px;flex-shrink:0}
+.proj-thumb{width:100%;height:170px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:14px;position:relative;overflow:hidden}
+.proj-num-bg{position:absolute;right:-8px;top:-18px;font-family:var(--bebas);font-size:110px;line-height:1;color:rgba(255,255,255,.04);user-select:none}
+.proj-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 25%,rgba(0,0,0,.88) 100%)}
+.proj-category{position:relative;z-index:2;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.proj-card-title{position:relative;z-index:2;font-family:var(--bebas);font-size:20px;letter-spacing:.5px;color:#fff;line-height:1.1;margin-bottom:4px}
+.proj-match{position:relative;z-index:2;font-size:10px;font-weight:700;color:var(--green)}
+.proj-body{padding:10px 12px 12px}
+.proj-role{font-size:10.5px;font-weight:600;color:var(--red);margin-bottom:4px;letter-spacing:.3px}
+.proj-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:9px}
+.proj-chips{display:flex;flex-wrap:wrap;gap:4px}
+.proj-chip{font-size:9px;border:1px solid rgba(255,255,255,.1);color:var(--text2);padding:2px 6px;border-radius:2px}
+
+/* PLAY BUTTON OVERLAY on cards */
+.proj-play-overlay{
+  position:absolute;inset:0;z-index:5;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .25s;
+  background:rgba(0,0,0,.4);
+}
+@media(hover:hover){.cwrap:hover .proj-play-overlay{opacity:1}}
+.proj-play-btn{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,.95);
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;color:#000;
+  transition:transform .2s,background .2s;
+}
+.proj-play-btn:hover{transform:scale(1.08);background:#fff}
+
+/* Wide & Poster */
+.wide-sz{width:clamp(240px,48vw,320px)}
+.wide-thumb{width:100%;height:145px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.wide-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(0,0,0,.85) 100%)}
+.wide-txt{font-family:var(--bebas);font-size:44px;letter-spacing:3px;color:rgba(255,255,255,.11);position:relative;z-index:1}
+.rbadge{position:absolute;top:10px;left:10px;z-index:3;background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:3px 7px;border-radius:2px}
+.wide-body{padding:12px 14px 15px}
+.wide-role{font-size:13px;font-weight:600;color:#fff;margin-bottom:3px}
+.wide-co{font-size:11.5px;color:var(--red);font-weight:500;margin-bottom:6px}
+.wide-desc{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px}
+.wchips{display:flex;flex-wrap:wrap;gap:4px}
+.wchip{font-size:9.5px;border:1px solid rgba(255,255,255,.1);color:var(--text2);padding:2px 6px;border-radius:2px}
+
+.post-sz{width:clamp(140px,28vw,185px)}
+.post-thumb{width:100%;height:106px;display:flex;align-items:center;justify-content:center;font-family:var(--bebas);position:relative;overflow:hidden}
+.post-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(0,0,0,.72) 100%)}
+.post-body{padding:8px 10px 11px}
+.post-genre{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:3px}
+.post-title{font-size:11px;font-weight:600;color:#fff;margin-bottom:3px;line-height:1.3}
+.post-sub{font-size:10px;color:var(--text2);line-height:1.4}
+
+/* TOP 10 */
+.t10wrap{display:flex;align-items:flex-end;flex-shrink:0;cursor:pointer;position:relative}
+.t10num{font-family:var(--bebas);font-size:clamp(65px,9vw,100px);line-height:1;color:#141414;-webkit-text-stroke:1.5px rgba(255,255,255,.09);margin-right:-12px;z-index:1;user-select:none;transition:-webkit-text-stroke .3s}
+@media(hover:hover){.t10wrap:hover .t10num{-webkit-text-stroke-color:rgba(229,9,20,.22)}.t10wrap:hover .t10inner{transform:scale(1.1) translateY(-10px);box-shadow:0 24px 56px rgba(0,0,0,.95),0 0 0 1px rgba(229,9,20,.18)}}
+.t10inner{width:clamp(120px,18vw,158px);background:var(--card);border-radius:4px;overflow:hidden;transition:transform .35s,box-shadow .35s;position:relative;z-index:2}
+.t10thumb{width:100%;height:98px;position:relative;overflow:hidden}
+.t10thumb img{width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.8)}
+.t10thumb-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,.35)}
+.t10thumb-icon{font-size:26px;line-height:1}
+.t10body{padding:7px 10px 9px}
+.t10title{font-size:11px;font-weight:600;color:#fff;margin-bottom:2px}
+.t10sub{font-size:9.5px;color:var(--text2)}
+
+/* COLOUR THEMES */
+.t-red{background:linear-gradient(145deg,#2a0808,#500e0e)}
+.t-blue{background:linear-gradient(145deg,#080f20,#0d2040)}
+.t-green{background:linear-gradient(145deg,#071a0c,#0c3518)}
+.t-purple{background:linear-gradient(145deg,#140828,#280a4a)}
+.t-amber{background:linear-gradient(145deg,#201008,#402010)}
+.t-teal{background:linear-gradient(145deg,#071a1c,#0a3035)}
+.t-rose{background:linear-gradient(145deg,#200810,#400820)}
+.t-navy{background:linear-gradient(145deg,#060d14,#0a1a28)}
+.t-indigo{background:linear-gradient(145deg,#0a0820,#1a1040)}
+.t-slate{background:linear-gradient(145deg,#0c0c14,#181828)}
+
+/* ROW ARROW BUTTONS */
+.row-arrows{display:flex;gap:6px}
+.row-arrow{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(40,40,40,.9);border:1px solid rgba(255,255,255,.25);
+  color:#fff;font-size:24px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,border-color .2s;line-height:1;padding:0;
+  font-family:var(--inter);user-select:none;
+}
+.row-arrow:hover{background:rgba(229,9,20,.7);border-color:var(--red)}
+
+/* CERT CARDS */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:4px}
+.cert-card{background:var(--card);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:20px;display:flex;gap:14px;align-items:flex-start;transition:border-color .3s,transform .3s;cursor:default}
+.cert-card:hover{border-color:rgba(229,9,20,.25);transform:translateY(-3px)}
+.cert-icon{width:44px;height:44px;border-radius:8px;background:rgba(229,9,20,.1);border:1px solid rgba(229,9,20,.2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.cert-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:3px;line-height:1.3}
+.cert-issuer{font-size:11.5px;color:var(--text3);margin-bottom:3px}
+.cert-date{font-size:11px;color:var(--text3)}
+.cert-link{font-size:11px;color:#54b9c5;text-decoration:none;display:inline-flex;align-items:center;gap:4px;margin-top:6px;transition:color .2s}
+.cert-link:hover{color:#7dd3e8}
+.cert-badge-new{display:inline-block;background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:2px;margin-left:8px;vertical-align:middle}
+
+/* CONTACT */
+.endcard{padding:60px 5%;background:linear-gradient(180deg,var(--bg) 0%,#090000 100%);text-align:center}
+.end-ey{font-size:11px;font-weight:700;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:14px}
+.end-title{font-family:var(--bebas);font-size:clamp(38px,9vw,90px);letter-spacing:2px;color:#fff;line-height:.94;margin-bottom:14px}
+.end-title .red{color:var(--red)}
+.end-sub{font-family:var(--serif);font-style:italic;font-size:clamp(14px,2vw,18px);color:var(--text2);margin-bottom:28px;line-height:1.6}
+.end-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.end-loc{font-size:12px;color:var(--text3)}
+
+/* FOOTER */
+.footer{padding:28px 5%;border-top:1px solid rgba(255,255,255,.07)}
+.foot-logo{font-family:var(--bebas);font-size:20px;color:var(--red);margin-bottom:11px}
+.foot-links{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:13px}
+.foot-links a{font-size:12px;color:var(--text3);text-decoration:none;transition:color .2s}
+.foot-links a:hover{color:var(--text2)}
+.foot-copy{font-size:11px;color:var(--text3)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* ══════════════════════════════════════════
+   PROJECT MODAL — Netflix-style full popup
+   ══════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,0);
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:40px 20px;overflow-y:auto;
+  pointer-events:none;transition:background .35s;
+}
+.modal-overlay.open{background:rgba(0,0,0,.75);pointer-events:all}
+.modal-box{
+  width:100%;max-width:860px;
+  background:#181818;border-radius:10px;
+  overflow:hidden;
+  transform:scale(0.9) translateY(40px);
+  opacity:0;transition:transform .35s cubic-bezier(.25,.46,.45,.94),opacity .35s ease;
+  flex-shrink:0;
+}
+.modal-overlay.open .modal-box{transform:scale(1) translateY(0);opacity:1}
+
+.modal-hero{
+  width:100%;height:clamp(220px,35vw,380px);
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:32px;
+}
+.modal-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center}
+.modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25) 0%,rgba(24,24,24,1) 100%)}
+.modal-close{
+  position:absolute;top:16px;right:16px;z-index:10;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.25);
+  color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.modal-close:hover{background:rgba(0,0,0,.9)}
+.modal-hero-content{position:relative;z-index:2}
+.modal-cat{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+.modal-title{font-family:var(--bebas);font-size:clamp(32px,5vw,56px);letter-spacing:1px;color:#fff;line-height:1;margin-bottom:8px}
+.modal-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.modal-match{font-size:13px;font-weight:700;color:var(--green)}
+.modal-badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:var(--text2);font-size:10px;font-weight:600;padding:3px 9px;border-radius:2px;letter-spacing:.4px}
+
+.modal-body{padding:28px 32px 36px}
+.modal-actions{display:flex;gap:10px;align-items:center;margin-bottom:24px}
+.modal-play{display:flex;align-items:center;gap:8px;background:#fff;color:#000;padding:10px 22px;border-radius:3px;font-size:13.5px;font-weight:700;cursor:pointer;border:none;transition:background .2s}
+.modal-play:hover{background:rgba(255,255,255,.88)}
+.modal-contact{display:flex;align-items:center;gap:8px;background:rgba(109,109,110,.65);color:#fff;padding:10px 22px;border-radius:3px;font-size:13.5px;font-weight:600;cursor:pointer;border:none;backdrop-filter:blur(8px);transition:background .2s;text-decoration:none}
+.modal-contact:hover{background:rgba(109,109,110,.45)}
+
+/* PM Story sections */
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:22px}
+@media(max-width:600px){.modal-grid{grid-template-columns:1fr}}
+.modal-story-block{background:rgba(0,0,0,.3);border-radius:6px;padding:16px;border:1px solid rgba(255,255,255,.06)}
+.modal-story-block.full{grid-column:1/-1}
+.msb-label{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--red);text-transform:uppercase;margin-bottom:8px}
+.msb-text{font-size:12.5px;color:var(--text2);line-height:1.75}
+.msb-text strong{color:#fff;font-weight:500}
+
+/* Workflow steps */
+.workflow{display:flex;flex-direction:column;gap:10px;margin-bottom:22px}
+.wf-step{display:flex;gap:12px;align-items:flex-start}
+.wf-num{width:26px;height:26px;border-radius:50%;background:var(--red);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.wf-content{}
+.wf-title{font-size:13px;font-weight:600;color:#fff;margin-bottom:2px}
+.wf-desc{font-size:12px;color:var(--text2);line-height:1.65}
+
+/* Outcomes */
+.modal-outcomes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+@media(max-width:500px){.modal-outcomes{grid-template-columns:repeat(2,1fr)}}
+.mo-card{background:rgba(0,0,0,.4);border-radius:6px;padding:14px;text-align:center;border:1px solid rgba(255,255,255,.05)}
+.mo-val{font-family:var(--bebas);font-size:26px;color:var(--red);line-height:1;margin-bottom:3px;letter-spacing:.5px}
+.mo-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+
+.modal-tools{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.modal-tool{font-size:11px;font-weight:600;color:var(--text2);background:rgba(255,255,255,.07);padding:4px 10px;border-radius:3px;border:1px solid rgba(255,255,255,.09)}
+.modal-divider{height:1px;background:rgba(255,255,255,.07);margin:20px 0}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     PROFILE SCREEN
+     ═══════════════════════════════════════ -->
+<div id="profile-screen">
+  <div class="ps-logo">PORTFOLIO</div>
+  <h1>Who's viewing?</h1>
+  <div class="ps-profiles">
+
+    <div class="ps-profile recruiter" onclick="enterPortfolio('Recruiter', event)">
+      <div class="ps-avatar"></div>
+      <div class="ps-avatar-label">Recruiter</div>
+    </div>
+
+    <div class="ps-profile hiring" onclick="enterPortfolio('Hiring Manager', event)">
+      <div class="ps-avatar">💼</div>
+      <div class="ps-avatar-label">Hiring Manager</div>
+    </div>
+
+    <div class="ps-profile curious" onclick="enterPortfolio('Just Exploring', event)">
+      <div class="ps-avatar">🔍</div>
+      <div class="ps-avatar-label">Just Exploring</div>
+    </div>
+
+    <div class="ps-profile" onclick="enterPortfolio('Colleague', event)" style="cursor:pointer">
+      <div class="ps-avatar" style="background:linear-gradient(135deg,#0a1020,#0d2040)">🤝</div>
+      <div class="ps-avatar-label">Colleague</div>
+    </div>
+
+  </div>
+  <button class="ps-manage">MANAGE PROFILES</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN PORTFOLIO
+     ═══════════════════════════════════════ -->
+<div id="main">
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">PM</div>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#metrics">Impact</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <div class="nav-profile-badge" onclick="switchProfile()">
+      <div class="nav-profile-icon" id="nav-profile-icon">PM</div>
+      <div class="nav-profile-name" id="nav-profile-name">Recruiter</div>
+    </div>
+    <a href="mailto:soham231010@gmail.com" class="nav-cta">Hire Me</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-bg-anim"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-vig"></div>
+  <div class="hero-layout">
+
+    <!-- LEFT: Name + Bio -->
+    <div class="hero-c">
+      <div class="hero-status" id="h1">
+        <span class="status-dot"></span>
+        <span class="status-text">Open to Product Management Roles</span>
+        <span class="status-badge">NEW</span>
+      </div>
+      <div class="hero-name" id="h2">
+        <span class="solid">SOHAM</span><br>
+        <span class="outline">TATWA</span><span class="solid">WADI</span>
+      </div>
+      <div class="hero-title-line" id="h3">Product Analyst → Product Manager</div>
+      <p class="hero-summary" id="h4">
+        <strong>3 years</strong> as Product Analyst at MedGenome Labs, owning the <strong>VarMiner platform</strong> and its clinical modules — Carrier, Trio, KaryoSeq — from scratch to live cloud deployment. Built <strong>5 side projects</strong> in parallel: AI support chatbot, product ops platform, HPO gene tool, genomic QC engine, and an ISB-certified <strong>B2B2C SaaS strategy</strong> for the $175B precision medicine market.
+      </p>
+      <div class="hero-match" id="h5">
+        <span class="match-score">98% PM Match</span>
+        <span class="match-badge">TOP 10</span>
+        <span class="match-text">for PM roles in Healthcare &amp; SaaS</span>
+      </div>
+      <div class="hero-btns" id="h6">
+        <a href="#projects" class="btn-white">▶ View Projects</a>
+        <a href="mailto:soham231010@gmail.com" class="btn-ghost">ℹ Get In Touch</a>
+      </div>
+      <div class="hero-tags" id="h7">
+        <span class="hero-tag">Product Strategy</span>
+        <span class="hero-tag">SQL &amp; Power BI</span>
+        <span class="hero-tag">User Research</span>
+        <span class="hero-tag">Clinical Tech</span>
+        <span class="hero-tag">AI Integration</span>
+        <span class="hero-tag">ISB Alumni</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Animated PM Dashboard Panel -->
+    <div class="hero-panel" id="h8">
+      <div class="hpanel-label">PRODUCT DASHBOARD · LIVE</div>
+      <div class="hpanel-card">
+        <div class="hpanel-top">
+          <div class="hpanel-avatar">ST</div>
+          <div>
+            <div class="hpanel-name">Soham Tatwawadi</div>
+            <div class="hpanel-role">Product Manager · MedGenome Labs</div>
+          </div>
+          <div class="hpanel-status-dot"></div>
+        </div>
+        <!-- Metric bars -->
+        <div class="hpanel-metrics">
+          <div class="hpanel-met">
+            <div class="hpanel-met-row">
+              <span class="hpanel-met-label">VarMiner — User Satisfaction</span>
+              <span class="hpanel-met-val" data-val="92">0%</span>
+            </div>
+            <div class="hpanel-bar"><div class="hpanel-bar-fill hpb-green" data-w="92"></div></div>
+          </div>
+          <div class="hpanel-met">
+            <div class="hpanel-met-row">
+              <span class="hpanel-met-label">Features Shipped · This Quarter</span>
+              <span class="hpanel-met-val" data-val="78">0%</span>
+            </div>
+            <div class="hpanel-bar"><div class="hpanel-bar-fill hpb-red" data-w="78"></div></div>
+          </div>
+          <div class="hpanel-met">
+            <div class="hpanel-met-row">
+              <span class="hpanel-met-label">Automation Coverage</span>
+              <span class="hpanel-met-val" data-val="60">0%</span>
+            </div>
+            <div class="hpanel-bar"><div class="hpanel-bar-fill hpb-blue" data-w="60"></div></div>
+          </div>
+          <div class="hpanel-met">
+            <div class="hpanel-met-row">
+              <span class="hpanel-met-label">Stakeholder Satisfaction</span>
+              <span class="hpanel-met-val" data-val="98">0%</span>
+            </div>
+            <div class="hpanel-bar"><div class="hpanel-bar-fill hpb-green" data-w="98"></div></div>
+          </div>
+        </div>
+        <!-- Product modules grid -->
+        <div class="hpanel-divider"></div>
+        <div class="hpanel-section-label">VarMiner Modules · Owned</div>
+        <div class="hpanel-modules">
+          <div class="hpanel-module hpm-live">
+            <div class="hpm-dot"></div>
+            <div>
+              <div class="hpm-name">Carrier</div>
+              <div class="hpm-sub">Autosomal Recessive</div>
+            </div>
+            <div class="hpm-badge live">LIVE</div>
+          </div>
+          <div class="hpanel-module hpm-live">
+            <div class="hpm-dot"></div>
+            <div>
+              <div class="hpm-name">Trio</div>
+              <div class="hpm-sub">De Novo Variants</div>
+            </div>
+            <div class="hpm-badge live">LIVE</div>
+          </div>
+          <div class="hpanel-module hpm-live">
+            <div class="hpm-dot"></div>
+            <div>
+              <div class="hpm-name">KaryoSeq</div>
+              <div class="hpm-sub">Chromosome Analysis</div>
+            </div>
+            <div class="hpm-badge live">LIVE</div>
+          </div>
+          <div class="hpanel-module">
+            <div class="hpm-dot" style="background:rgba(229,9,20,.5)"></div>
+            <div>
+              <div class="hpm-name">Cloud Migration</div>
+              <div class="hpm-sub">Scratch → Production</div>
+            </div>
+            <div class="hpm-badge shipped">SHIPPED</div>
+          </div>
+        </div>
+        <!-- Side projects ticker -->
+        <div class="hpanel-divider"></div>
+        <div class="hpanel-section-label">Side Projects · Shipped</div>
+        <div class="hpanel-side-projects">
+          <div class="hpanel-sp" id="sp-carousel">
+            <div class="hpsp-item active-sp">
+              <span class="hpsp-num">01</span>
+              <span class="hpsp-name">AI Support Chatbot</span>
+              <span class="hpsp-tag">LLM · Live</span>
+            </div>
+            <div class="hpsp-item">
+              <span class="hpsp-num">02</span>
+              <span class="hpsp-name">Requirements Platform</span>
+              <span class="hpsp-tag">Spring Boot · PostgreSQL</span>
+            </div>
+            <div class="hpsp-item">
+              <span class="hpsp-num">03</span>
+              <span class="hpsp-name">HPO Gene Tool</span>
+              <span class="hpsp-tag">Clinical AI · PyHPO</span>
+            </div>
+            <div class="hpsp-item">
+              <span class="hpsp-num">04</span>
+              <span class="hpsp-name">VariMAT QC Engine</span>
+              <span class="hpsp-tag">Streamlit · Polars</span>
+            </div>
+            <div class="hpsp-item">
+              <span class="hpsp-num">05</span>
+              <span class="hpsp-name">GenoVive Platform</span>
+              <span class="hpsp-tag">ISB Capstone · $175B Market</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /RIGHT -->
+
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <div class="tick-item"><span class="tick-val">5</span><span class="tick-lbl">Products<br>Owned</span></div>
+    <div class="tick-item"><span class="tick-val">25%</span><span class="tick-lbl">User Satisfaction<br>↑</span></div>
+    <div class="tick-item"><span class="tick-val">60%</span><span class="tick-lbl">Manual Effort<br>Saved</span></div>
+    <div class="tick-item"><span class="tick-val">20+</span><span class="tick-lbl">Features<br>Shipped</span></div>
+    <div class="tick-item"><span class="tick-val">100+</span><span class="tick-lbl">Users<br>Onboarded</span></div>
+    <div class="tick-item"><span class="tick-val">$175B</span><span class="tick-lbl">Market<br>Opportunity</span></div>
+    <div class="tick-item"><span class="tick-val">3+</span><span class="tick-lbl">Years<br>Experience</span></div>
+    <div class="tick-item"><span class="tick-val">ISB</span><span class="tick-lbl">PM<br>Certified</span></div>
+    <div class="tick-item"><span class="tick-val">5</span><span class="tick-lbl">Products<br>Owned</span></div>
+    <div class="tick-item"><span class="tick-val">25%</span><span class="tick-lbl">User Satisfaction<br>↑</span></div>
+    <div class="tick-item"><span class="tick-val">60%</span><span class="tick-lbl">Manual Effort<br>Saved</span></div>
+    <div class="tick-item"><span class="tick-val">20+</span><span class="tick-lbl">Features<br>Shipped</span></div>
+    <div class="tick-item"><span class="tick-val">100+</span><span class="tick-lbl">Users<br>Onboarded</span></div>
+    <div class="tick-item"><span class="tick-val">$175B</span><span class="tick-lbl">Market<br>Opportunity</span></div>
+    <div class="tick-item"><span class="tick-val">3+</span><span class="tick-lbl">Years<br>Experience</span></div>
+    <div class="tick-item"><span class="tick-val">ISB</span><span class="tick-lbl">PM<br>Certified</span></div>
+  </div>
+</div>
+
+<!-- ════ PM METRICS ════ -->
+<div class="met-sec reveal" id="metrics">
+  <div class="sec-hd"><h2>Dynamic PM Metrics</h2><span>Real impact across 5 products at MedGenome Labs</span></div>
+  <div class="met-grid">
+    <div class="met-card" data-target="25" data-bar="92"><span class="met-icon">📈</span><div><span class="met-num">0</span><span class="met-sfx">%</span></div><div class="met-lbl">Adoption Growth</div><div class="met-desc">Via data-driven roadmapping &amp; user research</div><div class="met-bar-wrap"><div class="met-bar-fill" data-w="92"></div></div></div>
+    <div class="met-card" data-target="100" data-bar="78"><span class="met-icon">👥</span><div><span class="met-num">0</span><span class="met-sfx">+</span></div><div class="met-lbl">MAU Onboarded</div><div class="met-desc">Across 4 clinical platforms</div><div class="met-bar-wrap"><div class="met-bar-fill" data-w="78"></div></div></div>
+    <div class="met-card" data-target="60" data-bar="85"><span class="met-icon">⚡</span><div><span class="met-num">0</span><span class="met-sfx">%</span></div><div class="met-lbl">Automation Saved</div><div class="met-desc">Python &amp; Perl pipeline automation</div><div class="met-bar-wrap"><div class="met-bar-fill" data-w="85"></div></div></div>
+    <div class="met-card" data-target="5" data-bar="100"><span class="met-icon">🚀</span><div><span class="met-num">0</span><span class="met-sfx"></span></div><div class="met-lbl">Products Shipped</div><div class="met-desc">End-to-end product ownership</div><div class="met-bar-wrap"><div class="met-bar-fill" data-w="100"></div></div></div>
+    <div class="met-card" data-target="98" data-bar="98"><span class="met-icon">🤝</span><div><span class="met-num">0</span><span class="met-sfx">%</span></div><div class="met-lbl">Stakeholder Sat.</div><div class="met-desc">Across 50+ client sessions</div><div class="met-bar-wrap"><div class="met-bar-fill" data-w="98"></div></div></div>
+  </div>
+</div>
+
+<!-- ════ PROJECTS ROW ════ -->
+<div class="nfsec reveal" id="projects">
+  <div class="nfsec-title" style="justify-content:space-between;align-items:center">
+    <span>Featured Products &nbsp;<span style="font-size:13px;font-weight:400;color:#54b9c5">Click ▶ on any card to explore</span></span>
+    <div class="row-arrows" id="proj-arrows">
+      <button class="row-arrow" onclick="scrollRow('projects-row',-1)">&#8249;</button>
+      <button class="row-arrow" onclick="scrollRow('projects-row',1)">&#8250;</button>
+    </div>
+  </div>
+  <div class="row-outer">
+  <div class="nfrow" id="projects-row">
+
+    <!-- Card 1: VarMiner Requirements -->
+    <div class="cwrap proj-sz" onclick="openModal('vr')">
+      <div class="nfcard proj-sz">
+        <div class="proj-thumb t-purple">
+          <div class="proj-num-bg">01</div>
+          <div class="proj-category">Product Operations · Hero Project</div>
+          <div class="proj-card-title">VarMiner Requirements Platform</div>
+          <div class="proj-match">97% PM Match</div>
+          <div class="proj-play-overlay"><div class="proj-play-btn">▶</div></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-role">PM + Engineering Ownership · Java Spring Boot</div>
+          <div class="proj-desc">Centralized product ops platform — backlog, releases, meetings, priorities, KPI dashboard.</div>
+          <div class="proj-chips"><span class="proj-chip">Java Spring Boot</span><span class="proj-chip">PostgreSQL</span><span class="proj-chip">Flyway</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2: AI Genomic Platform -->
+    <div class="cwrap proj-sz" onclick="openModal('geno')">
+      <div class="nfcard proj-sz">
+        <div class="proj-thumb t-red">
+          <div class="proj-num-bg">02</div>
+          <div class="proj-category">ISB Capstone · Strategy</div>
+          <div class="proj-card-title">AI Genomic Health Platform</div>
+          <div class="proj-match">99% Vision Match</div>
+          <div class="proj-play-overlay"><div class="proj-play-btn">▶</div></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-role">Product Strategist · B2B2C SaaS · GenoVive</div>
+          <div class="proj-desc">Full product strategy: RICE, Kano, Blue Ocean — from market sizing to GTM to revenue model.</div>
+          <div class="proj-chips"><span class="proj-chip">RICE</span><span class="proj-chip">Kano Model</span><span class="proj-chip">Blue Ocean</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3: VarMiner Chatbot -->
+    <div class="cwrap proj-sz" onclick="openModal('chatbot')">
+      <div class="nfcard proj-sz">
+        <div class="proj-thumb t-green">
+          <div class="proj-num-bg">03</div>
+          <div class="proj-category">AI Operations · Live in Production</div>
+          <div class="proj-card-title">VarMiner AI Support Chatbot</div>
+          <div class="proj-match">95% Match</div>
+          <div class="proj-play-overlay"><div class="proj-play-btn">▶</div></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-role">AI PM · Shipped &amp; Live for Analysts</div>
+          <div class="proj-desc">LLM + browser automation + vision AI — resolves NGS workflow queries autonomously.</div>
+          <div class="proj-chips"><span class="proj-chip">Groq LLaMA-3.3</span><span class="proj-chip">Selenium</span><span class="proj-chip">Vision AI</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: HPO Tool -->
+    <div class="cwrap proj-sz" onclick="openModal('hpo')">
+      <div class="nfcard proj-sz">
+        <div class="proj-thumb t-amber">
+          <div class="proj-num-bg">04</div>
+          <div class="proj-category">Clinical AI · Rare Disease</div>
+          <div class="proj-card-title">HPO Gene Prioritisation Tool</div>
+          <div class="proj-match">92% Domain Match</div>
+          <div class="proj-play-overlay"><div class="proj-play-btn">▶</div></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-role">Clinical Product Lead · Diagnostic AI</div>
+          <div class="proj-desc">Scores candidate genes against patient phenotypes — DDx from hours to seconds.</div>
+          <div class="proj-chips"><span class="proj-chip">PyHPO</span><span class="proj-chip">FastAPI</span><span class="proj-chip">React 18</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5: Content Check -->
+    <div class="cwrap proj-sz" onclick="openModal('varimat')">
+      <div class="nfcard proj-sz">
+        <div class="proj-thumb t-navy">
+          <div class="proj-num-bg">05</div>
+          <div class="proj-category">Ops Intelligence · QC Automation</div>
+          <div class="proj-card-title">VariMAT Content Check Tool</div>
+          <div class="proj-match">90% Match</div>
+          <div class="proj-play-overlay"><div class="proj-play-btn">▶</div></div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-role">PM + Analyst · Genomic QC Automation</div>
+          <div class="proj-desc">Automated multi-file genomic validation — concordance, QC score, PDF reports.</div>
+          <div class="proj-chips"><span class="proj-chip">Streamlit</span><span class="proj-chip">Polars</span><span class="proj-chip">ReportLab</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</div>
+
+<!-- ════ WORK EXPERIENCE ════ -->
+<div class="nfsec reveal" id="experience">
+  <div class="nfsec-title" style="justify-content:space-between;align-items:center">
+    <span>Work Experience</span>
+    <div class="row-arrows">
+      <button class="row-arrow" onclick="scrollRow('exp-row',-1)">&#8249;</button>
+      <button class="row-arrow" onclick="scrollRow('exp-row',1)">&#8250;</button>
+    </div>
+  </div>
+  <div class="row-outer">
+  <div class="nfrow" id="exp-row">
+    <div class="cwrap wide-sz">
+      <div class="nfcard wide-sz"><div class="wide-thumb t-red"><div class="wide-txt">PRODUCT</div><div class="rbadge">NOW PLAYING</div></div><div class="wide-body"><div class="wide-role">Product Analyst — Clinical Software</div><div class="wide-co">MedGenome Labs · Jul 2023–Present</div><div class="wide-desc">Full product ownership across VarMiner ecosystem — user research, 20+ features, 5 products, 10+ dashboards, automated pipelines.</div><div class="wchips"><span class="wchip">25% Satisfaction ↑</span><span class="wchip">60% Automation</span><span class="wchip">5 Products</span></div></div></div>
+    </div>
+    <div class="cwrap wide-sz">
+      <div class="nfcard wide-sz"><div class="wide-thumb t-blue"><div class="wide-txt">GENOME</div></div><div class="wide-body"><div class="wide-role">Genome Analyst</div><div class="wide-co">MedGenome Labs · Jul 2022–Jul 2023</div><div class="wide-desc">NGS variant analysis, ACMG classification, clinical reports. Domain depth powering all 5 clinical software products.</div><div class="wchips"><span class="wchip">NGS</span><span class="wchip">ACMG</span><span class="wchip">100+ Reports</span></div></div></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- ════ TOP 10 SKILLS ════ -->
+<div class="nfsec reveal" id="skills">
+  <div class="nfsec-title" style="justify-content:space-between;align-items:center">
+    <span>Top 10 Skills</span>
+    <div class="row-arrows" id="skills-arrows">
+      <button class="row-arrow" onclick="scrollRow('skills-row',-1)">&#8249;</button>
+      <button class="row-arrow" onclick="scrollRow('skills-row',1)">&#8250;</button>
+    </div>
+  </div>
+  <div class="row-outer">
+  <div class="nfrow" id="skills-row">
+    <div class="t10wrap"><div class="t10num">1</div><div class="t10inner"><div class="t10thumb t-red"><img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png" alt="SQL" onerror="this.style.display='none'"><div class="t10thumb-overlay"><span class="t10thumb-icon">🗄️</span></div></div><div class="t10body"><div class="t10title">SQL</div><div class="t10sub">Analytics</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">2</div><div class="t10inner"><div class="t10thumb t-blue"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/New_Power_BI_Logo.svg" alt="Power BI" style="width:60%;height:60%;object-fit:contain" onerror="this.style.display='none'"><div class="t10thumb-overlay"><span class="t10thumb-icon">📊</span></div></div><div class="t10body"><div class="t10title">Power BI</div><div class="t10sub">Dashboards</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">3</div><div class="t10inner"><div class="t10thumb t-purple"><div class="t10thumb-overlay"><span class="t10thumb-icon">📋</span></div></div><div class="t10body"><div class="t10title">PRD / BRD</div><div class="t10sub">Roadmapping</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">4</div><div class="t10inner"><div class="t10thumb t-green"><img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma" style="width:40%;height:60%;object-fit:contain" onerror="this.style.display='none'"><div class="t10thumb-overlay"><span class="t10thumb-icon">🎯</span></div></div><div class="t10body"><div class="t10title">User Research</div><div class="t10sub">JTBD / Interviews</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">5</div><div class="t10inner"><div class="t10thumb t-amber"><img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" style="width:55%;height:55%;object-fit:contain" onerror="this.style.display='none'"><div class="t10thumb-overlay"><span class="t10thumb-icon">🐍</span></div></div><div class="t10body"><div class="t10title">Python</div><div class="t10sub">Automation</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">6</div><div class="t10inner"><div class="t10thumb t-teal"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Jira_Logo.svg" alt="JIRA" style="width:70%;height:50%;object-fit:contain" onerror="this.style.display='none'"><div class="t10thumb-overlay"><span class="t10thumb-icon">🔧</span></div></div><div class="t10body"><div class="t10title">Jira / Confluence</div><div class="t10sub">Agile</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">7</div><div class="t10inner"><div class="t10thumb t-rose"><div class="t10thumb-overlay"><span class="t10thumb-icon">🔬</span></div></div><div class="t10body"><div class="t10title">A/B Testing</div><div class="t10sub">Experiments</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">8</div><div class="t10inner"><div class="t10thumb t-navy"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Tableau_Logo.png" alt="Tableau" style="width:75%;height:45%;object-fit:contain" onerror="this.style.display='none'"><div class="t10thumb-overlay"><span class="t10thumb-icon">📉</span></div></div><div class="t10body"><div class="t10title">Tableau</div><div class="t10sub">Data Viz</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">9</div><div class="t10inner"><div class="t10thumb t-indigo"><div class="t10thumb-overlay"><span class="t10thumb-icon">🧠</span></div></div><div class="t10body"><div class="t10title">Product Strategy</div><div class="t10sub">RICE · Kano · OKRs</div></div></div></div>
+    <div class="t10wrap"><div class="t10num">10</div><div class="t10inner"><div class="t10thumb t-green"><div class="t10thumb-overlay"><span class="t10thumb-icon">🤖</span></div></div><div class="t10body"><div class="t10title">AI Integration</div><div class="t10sub">LLM + Automation</div></div></div></div>
+  </div>
+  </div>
+</div>
+
+<!-- ════ EDUCATION ════ -->
+<div class="nfsec reveal" id="education">
+  <div class="nfsec-title" style="justify-content:space-between;align-items:center">
+    <span>Education</span>
+    <div class="row-arrows">
+      <button class="row-arrow" onclick="scrollRow('edu-row',-1)">&#8249;</button>
+      <button class="row-arrow" onclick="scrollRow('edu-row',1)">&#8250;</button>
+    </div>
+  </div>
+  <div class="row-outer">
+  <div class="nfrow" id="edu-row">
+    <div class="cwrap post-sz"><div class="nfcard post-sz"><div class="post-thumb t-purple" style="font-size:26px;color:rgba(255,255,255,.36)">ISB</div><div class="post-body"><div class="post-genre">Executive Education</div><div class="post-title">Indian School of Business</div><div class="post-sub">Product Management · Nov 2024–Apr 2025</div></div></div></div>
+    <div class="cwrap post-sz"><div class="nfcard post-sz"><div class="post-thumb t-teal" style="font-size:17px;color:rgba(255,255,255,.36)">MANIPAL</div><div class="post-body"><div class="post-genre">Post Graduate</div><div class="post-title">M.Sc. Genome Engineering</div><div class="post-sub">Manipal University · 2020–2022</div></div></div></div>
+    <div class="cwrap post-sz"><div class="nfcard post-sz"><div class="post-thumb t-blue" style="font-size:24px;color:rgba(255,255,255,.36)">SRM</div><div class="post-body"><div class="post-genre">Under Graduate</div><div class="post-title">B.Tech Genetic Engineering</div><div class="post-sub">SRM University, Chennai · 2015–2019</div></div></div></div>
+    <div class="cwrap post-sz"><div class="nfcard post-sz"><div class="post-thumb t-teal" style="font-size:18px;color:rgba(255,255,255,.36)">TZU CHI</div><div class="post-body"><div class="post-genre">Exchange Research</div><div class="post-title">Tzu Chi University</div><div class="post-sub">Taiwan · Jan–Jun 2019</div></div></div></div>
+  </div>
+  </div>
+</div>
+
+<!-- ════ CERTIFICATIONS ════ -->
+<div class="nfsec reveal" id="certifications">
+  <div class="nfsec-title">Certifications</div>
+  <div style="padding:0 0 32px">
+  <div class="cert-grid">
+
+    <div class="cert-card">
+      <div class="cert-icon">🏆</div>
+      <div>
+        <div class="cert-name">Professional Scrum Product Owner™ I (PSPO I) <span class="cert-badge-new">NEW</span></div>
+        <div class="cert-issuer">Scrum.org</div>
+        <div class="cert-date">Issued Jan 2026</div>
+        <a href="https://www.credly.com/badges/fffef914-99ca-4bbf-820f-d2c7507c85f5/linked_in_profile" target="_blank" class="cert-link">↗ View Credential on Credly</a>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">📈</div>
+      <div>
+        <div class="cert-name">Google Analytics Individual Qualification</div>
+        <div class="cert-issuer">Google</div>
+        <div class="cert-date">Issued Jun 2025</div>
+        <a href="#" class="cert-link">↗ View Credential</a>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">⚡</div>
+      <div>
+        <div class="cert-name">Lean Six Sigma White Belt</div>
+        <div class="cert-issuer">Aveta Business Institute</div>
+        <div class="cert-date">Issued Nov 2024</div>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">🐍</div>
+      <div>
+        <div class="cert-name">Python Certification</div>
+        <div class="cert-issuer">SevenMentor Pvt Ltd</div>
+        <div class="cert-date">Issued Jun 2022</div>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon">🗄️</div>
+      <div>
+        <div class="cert-name">SQL Certification</div>
+        <div class="cert-issuer">SevenMentor Pvt Ltd</div>
+        <div class="cert-date">Issued Jun 2022</div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="endcard reveal" id="contact">
+  <div style="max-width:580px;margin:0 auto">
+    <div class="end-ey">5 Products · 3 Years · PSPO I Certified · Open to PM Roles</div>
+    <div class="end-title">READY TO<br>BUILD GREAT<br><span class="red">PRODUCTS</span></div>
+    <div class="end-sub">From clinical AI to product operations — I build products that solve real problems for real users.</div>
+    <div class="end-btns">
+      <a href="mailto:soham231010@gmail.com" class="btn-white" style="text-decoration:none">▶ soham231010@gmail.com</a>
+      <a href="https://www.linkedin.com/in/soham-tatwawadi/" class="btn-ghost" style="text-decoration:none" target="_blank" rel="noopener noreferrer">↗ LinkedIn</a>
+    </div>
+    <div class="end-loc">Bengaluru, India · Open to Remote &amp; Relocation</div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="foot-logo">SOHAM TATWAWADI</div>
+  <div class="foot-links">
+    <a href="mailto:soham231010@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/soham-tatwawadi/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="#">Resume</a>
+    <a href="#projects">Projects</a>
+    <a href="#metrics">Impact</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#certifications">Certifications</a>
+  </div>
+  <div class="foot-copy">&copy; 2025 Soham Tatwawadi · Product Manager · Building AI-powered healthcare products</div>
+</footer>
+
+</div><!-- /main -->
+
+<!-- ══════════════════════════════════════
+     PROJECT MODALS
+     ══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalIfOverlay(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-hero" id="modal-hero">
+      <div class="modal-hero-bg" id="modal-hero-bg"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-hero-content">
+        <div class="modal-cat" id="modal-cat"></div>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-meta" id="modal-meta"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-actions">
+        <button class="modal-play">▶ Case Study</button>
+        <a href="mailto:soham231010@gmail.com" class="modal-contact">📩 Discuss with Soham</a>
+      </div>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ════ PROJECT DATA ════ */
+const PROJECTS = {
+  vr:{
+    cat:'PRODUCT OPERATIONS · HERO PROJECT',
+    title:'VARMINER REQUIREMENTS\nPLATFORM',
+    match:'97% PM Match',
+    badges:['Java Spring Boot','PostgreSQL','Internal Platform'],
+    bg:'linear-gradient(135deg,#140828 0%,#280a4a 100%)',
+    content:`
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🔴 The Problem</div>
+          <div class="msb-text">Product requirements, release cycles, meeting decisions, and sprint priorities were scattered across <strong>spreadsheets, email threads, and Slack messages</strong>. This caused misaligned stakeholder expectations, missed delivery targets, and zero visibility into the product lifecycle. There was no single source of truth.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">👥 Users</div>
+          <div class="msb-text">Product team, engineering leads, bioinformatics teams, QA, and external stakeholders — all needed real-time visibility into what was being built, when, and why. <strong>Admin users</strong> managed the backlog; <strong>regular users</strong> tracked their assigned requirements and releases.</div>
+        </div>
+        <div class="modal-story-block full">
+          <div class="msb-label">❌ Why Existing Process Failed</div>
+          <div class="msb-text">CSV spreadsheets had no version control, no status tracking, no link between requirements and releases. Meeting notes lived in personal documents. There was no way to see which requirements were in a priority set for the current week vs quarter. <strong>Every status update required a meeting.</strong></div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">🔄 Product Workflow — 10 Modules Shipped</div>
+      <div class="workflow">
+        <div class="wf-step"><div class="wf-num">1</div><div class="wf-content"><div class="wf-title">Requirement Capture</div><div class="wf-desc">Structured intake with auto-generated external IDs (VR-001), category, type, acceptance criteria, priority, sprint targets, and assignee. CSV import for legacy data migration.</div></div></div>
+        <div class="wf-step"><div class="wf-num">2</div><div class="wf-content"><div class="wf-title">Product Backlog</div><div class="wf-desc">Filterable, sortable backlog with status tracking (Discovery → In Progress → Done), stack ranking, and visual priority indicators. Priority-set membership shown inline.</div></div></div>
+        <div class="wf-step"><div class="wf-num">3</div><div class="wf-content"><div class="wf-title">Priority Sets</div><div class="wf-desc">Named priority groups by timeframe (Week / Month / Quarter / Custom). Items linked to backlog requirements or entered manually, with sprint dates and assignees.</div></div></div>
+        <div class="wf-step"><div class="wf-num">4</div><div class="wf-content"><div class="wf-title">Releases & Upcoming Releases</div><div class="wf-desc">Release records with version, dates, status, notes, and internal comments. Requirements linked to releases. Upcoming releases dashboard for stakeholder communication.</div></div></div>
+        <div class="wf-step"><div class="wf-num">5</div><div class="wf-content"><div class="wf-title">Meetings Module</div><div class="wf-desc">Weekly and fortnightly meeting records with decisions, action items (owner, due date, status), and links to requirements and releases. Overdue action item surfacing on dashboard.</div></div></div>
+        <div class="wf-step"><div class="wf-num">6</div><div class="wf-content"><div class="wf-title">KPI Dashboard + Roadmap</div><div class="wf-desc">Real-time KPIs: shipment rates, next release countdown, top priorities, open action items. Roadmap grouped by quarter and month with Chart.js visualisations.</div></div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">🎯 Key PM Decisions</div>
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">Architecture Tradeoff</div>
+          <div class="msb-text">Chose <strong>Java Spring Boot + PostgreSQL</strong> over a lighter Python/Streamlit stack for long-term maintainability, role-based auth, and Supabase cloud compatibility. Worth the upfront complexity.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">ID Design Decision</div>
+          <div class="msb-text">Designed <strong>external IDs (VR-001) separate from internal DB IDs</strong> so requirements maintain consistent references across releases, meetings, and priority sets even when records are updated.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">Prioritisation</div>
+          <div class="msb-text">Shipped <strong>Meetings module first</strong> — highest-pain stakeholder workflow. Backlog and releases shipped second. KPI dashboard last once data existed to populate it.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">Scalability</div>
+          <div class="msb-text">Flyway migrations ensured <strong>zero-downtime schema evolution</strong>. Admin import endpoint for legacy CSV migration. Role-based access (ADMIN vs USER) designed from day one.</div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px">📊 Outcomes</div>
+      <div class="modal-outcomes">
+        <div class="mo-card"><div class="mo-val">1</div><div class="mo-lbl">Source of Truth</div></div>
+        <div class="mo-card"><div class="mo-val">10</div><div class="mo-lbl">Modules Built</div></div>
+        <div class="mo-card"><div class="mo-val">0</div><div class="mo-lbl">Scattered Docs</div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px">🛠 Tech Stack</div>
+      <div class="modal-tools"><span class="modal-tool">Java 17</span><span class="modal-tool">Spring Boot 3.2</span><span class="modal-tool">Spring Security</span><span class="modal-tool">PostgreSQL</span><span class="modal-tool">Flyway</span><span class="modal-tool">Supabase</span><span class="modal-tool">Chart.js</span><span class="modal-tool">Maven</span></div>
+    `
+  },
+  geno:{
+    cat:'ISB CAPSTONE · PRODUCT STRATEGY · B2B2C SAAS',
+    title:'AI GENOMIC HEALTH\nPLATFORM — GENOVIVE',
+    match:'99% Vision Match',
+    badges:['$175B Market','Blue Ocean','ISB Certified'],
+    bg:'linear-gradient(135deg,#1a0808 0%,#3d0808 100%)',
+    content:`
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🔴 The Problem</div>
+          <div class="msb-text">The $175B precision medicine market had a massive white space: DNA testing companies like 23andMe provided raw genomic data but <strong>zero actionable, real-time guidance</strong>. 68% of consumers said they'd pay a premium for DNA-based health insights (McKinsey, 2023), but no product connected genomic data with clinical-grade health recommendations.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">👥 User Personas</div>
+          <div class="msb-text"><strong>Primary:</strong> Health-conscious consumers (25–45) seeking DNA-based nutrition and fitness plans.<br><br><strong>Secondary:</strong> Clinicians needing a dashboard to manage patient genomic profiles and personalised care pathways.<br><br><strong>B2B:</strong> Telehealth platforms (Teladoc) as distribution partners.</div>
+        </div>
+        <div class="modal-story-block full">
+          <div class="msb-label">❌ Why Existing Products Failed</div>
+          <div class="msb-text">23andMe: raw data dump, no actionable guidance. MyFitnessPal: generic wellness with no genomic personalisation. Existing clinical tools: too complex, no consumer layer. <strong>No product combined clinical-grade genomic data with real-time wearable analytics</strong> — that was the uncontested market space.</div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">🔄 Product Strategy Workflow</div>
+      <div class="workflow">
+        <div class="wf-step"><div class="wf-num">1</div><div class="wf-content"><div class="wf-title">Market Sizing & Opportunity (Phase: Discovery)</div><div class="wf-desc">Precision medicine market: $175B by 2030. FDA tailwinds for AI-driven clinical decision support. Identified regulatory white space and consumer demand gap. 100+ user interviews planned for MVP validation.</div></div></div>
+        <div class="wf-step"><div class="wf-num">2</div><div class="wf-content"><div class="wf-title">Feature Prioritisation — RICE + Kano Model</div><div class="wf-desc"><strong>Basic (must-have):</strong> HIPAA-compliant data storage.<br><strong>Performance:</strong> Wearable integration (Fitbit, Apple Health, SmartRing).<br><strong>Delighters:</strong> AI-generated "Gene Score" for instant health insights.<br>RICE scoring prioritised gene-meal plans and clinician dashboard first.</div></div></div>
+        <div class="wf-step"><div class="wf-num">3</div><div class="wf-content"><div class="wf-title">Competitive Positioning — Blue Ocean Strategy</div><div class="wf-desc">Created uncontested demand by combining genomic data + real-time wearable analytics. Differentiation from 23andMe (clinical validity) and MyFitnessPal (hyper-personalisation). Porter's Generic Strategy: Differentiation focus.</div></div></div>
+        <div class="wf-step"><div class="wf-num">4</div><div class="wf-content"><div class="wf-title">AI Architecture Decisions</div><div class="wf-desc"><strong>Predictive Analytics:</strong> Random Forest models prioritise high-risk genetic markers.<br><strong>NLP:</strong> GPT-4 explains gene-health links in plain language for consumers.<br><strong>Automation:</strong> Chatbots handle 70% of queries (Dialogflow), reducing CS costs 40%.<br><strong>Data Pipeline:</strong> Airflow auto-updates genomic databases via PubMed API.</div></div></div>
+        <div class="wf-step"><div class="wf-num">5</div><div class="wf-content"><div class="wf-title">GTM Strategy — B2B2C Model</div><div class="wf-desc"><strong>Phase 1 (Month 1–3):</strong> Beta with 500 users + 10 clinics.<br><strong>Phase 2 (Month 4–6):</strong> Scale digital ads, +30% MoM growth target.<br><strong>Phase 3 (Month 7–12):</strong> APAC expansion with dietary localisation.<br>B2B channel: Partner with Teladoc for enterprise distribution.</div></div></div>
+        <div class="wf-step"><div class="wf-num">6</div><div class="wf-content"><div class="wf-title">Success Metrics — AARRR Framework</div><div class="wf-desc">Acquisition: organic + B2B partnership. Activation: first Gene Score generated within 48h. Retention: weekly wearable-linked health check-ins. Revenue: freemium → clinician subscription tier. Referral: gene-health insight sharing.</div></div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px">📊 Strategic Numbers</div>
+      <div class="modal-outcomes">
+        <div class="mo-card"><div class="mo-val">$175B</div><div class="mo-lbl">Market by 2030</div></div>
+        <div class="mo-card"><div class="mo-val">68%</div><div class="mo-lbl">WTP Premium</div></div>
+        <div class="mo-card"><div class="mo-val">70%</div><div class="mo-lbl">Queries Automated</div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px">🛠 Frameworks Used</div>
+      <div class="modal-tools"><span class="modal-tool">RICE Scoring</span><span class="modal-tool">Kano Model</span><span class="modal-tool">Blue Ocean Strategy</span><span class="modal-tool">Porter's Generic</span><span class="modal-tool">AARRR Metrics</span><span class="modal-tool">Growth Hacking</span><span class="modal-tool">A/B Testing</span></div>
+    `
+  },
+  chatbot:{
+    cat:'AI OPERATIONS · LIVE IN PRODUCTION',
+    title:'VARMINER AI\nSUPPORT CHATBOT',
+    match:'95% Match',
+    badges:['Groq LLaMA-3.3 70B','Selenium + Vision AI','Live Product'],
+    bg:'linear-gradient(135deg,#071a0c 0%,#0c3518 100%)',
+    content:`
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🔴 The Problem</div>
+          <div class="msb-text">VarMiner's support team was overwhelmed. <strong>Every analyst question created a support ticket</strong> — queries about NGS variant workflows, comp het steps, LIMS guidance, and platform navigation. Clinical turnaround was being delayed by support bottlenecks. Static documentation wasn't being read.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">👥 Users</div>
+          <div class="msb-text"><strong>Genome analysts</strong> running clinical NGS interpretation daily.<br><strong>Clinical scientists</strong> needing fast answers on workflow edge cases.<br><strong>Bioinformaticians</strong> troubleshooting sample loading failures.<br><strong>Support engineers</strong> who needed query volume reduced.</div>
+        </div>
+        <div class="modal-story-block full">
+          <div class="msb-label">❌ Why Existing Process Failed</div>
+          <div class="msb-text">Static docs required users to search and read — they didn't. Email support had 24–48h response times. Slack messages got buried. <strong>The fundamental insight: users don't read docs — they ask questions.</strong> A conversational interface was the only UX that matched how analysts actually worked.</div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">🔄 System Workflow</div>
+      <div class="workflow">
+        <div class="wf-step"><div class="wf-num">1</div><div class="wf-content"><div class="wf-title">Query Intake — Chat Interface</div><div class="wf-desc">Floating chat bubble embedded in VarMiner's web UI. User types query (or pastes sample ID). The same interface works standalone via test_chat.html for internal testing.</div></div></div>
+        <div class="wf-step"><div class="wf-num">2</div><div class="wf-content"><div class="wf-title">Intent Classification — Should Automate?</div><div class="wf-desc"><strong>PM Decision:</strong> Built intent classifier (keyword matching + sample ID regex \\b\\d{5,10}\\b) to decide: answer with LLM only, or trigger browser automation. Prevents unnecessary Selenium overhead for simple queries.</div></div></div>
+        <div class="wf-step"><div class="wf-num">3</div><div class="wf-content"><div class="wf-title">LLM Response — Groq LLaMA-3.3 70B</div><div class="wf-desc">System prompt: VARMINER_KNOWLEDGE (deep product + troubleshooting + escalation rules). Multi-turn conversation stored in-memory per user_id. Groq returns response in milliseconds — critical for clinical workflow speed.</div></div></div>
+        <div class="wf-step"><div class="wf-num">4</div><div class="wf-content"><div class="wf-title">Browser Automation — Selenium</div><div class="wf-desc">When sample ID detected: auto-login to VarMiner → search → navigate to GATK or Pindel row → click eye icon → screenshot. If login page reappears mid-session, re-authenticates automatically.</div></div></div>
+        <div class="wf-step"><div class="wf-num">5</div><div class="wf-content"><div class="wf-title">Vision AI Diagnosis — LLaMA Vision 90B</div><div class="wf-desc"><strong>PM Decision:</strong> Added vision AI specifically for screenshot-based diagnostics — the highest-friction query type. "Did the sample load? Any errors?" answered by multimodal LLM analysing the screenshot.</div></div></div>
+        <div class="wf-step"><div class="wf-num">6</div><div class="wf-content"><div class="wf-title">Escalation Flow — Human Handoff</div><div class="wf-desc">If chatbot can't resolve: "Would you like to contact support?" → builds transcript from conversation → sends email to support team with full context. Designed so human picks up with full context, zero re-explaining.</div></div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🎯 PM Decision: Why Chatbot vs Docs?</div>
+          <div class="msb-text">Users never searched documentation. Chatbot matches the mental model of "asking a colleague." Intent routing prevents automation overkill. <strong>Vision AI was added after discovering sample-loading screenshots were the #1 hardest query type to resolve via text alone.</strong></div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">🎯 PM Decision: Escalation Design</div>
+          <div class="msb-text">Designed "Yes"/"Y" shortcuts to trigger contact support — reducing friction to zero. Email includes full conversation transcript so the support engineer has complete context. <strong>Reduces re-explanation overhead by 100%.</strong></div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px">📊 Outcomes</div>
+      <div class="modal-outcomes">
+        <div class="mo-card"><div class="mo-val">Auto</div><div class="mo-lbl">Query Resolution</div></div>
+        <div class="mo-card"><div class="mo-val">↓</div><div class="mo-lbl">Support Tickets</div></div>
+        <div class="mo-card"><div class="mo-val">👁</div><div class="mo-lbl">Vision Diagnosis</div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px">🛠 Tech Stack</div>
+      <div class="modal-tools"><span class="modal-tool">Groq LLaMA-3.3-70B</span><span class="modal-tool">LLaMA-Vision-90B</span><span class="modal-tool">Selenium WebDriver</span><span class="modal-tool">Flask + CORS</span><span class="modal-tool">Python</span><span class="modal-tool">SMTP Escalation</span></div>
+    `
+  },
+  hpo:{
+    cat:'CLINICAL AI · RARE DISEASE DIAGNOSTICS',
+    title:'HPO GENE\nPRIORITISATION TOOL',
+    match:'92% Domain Match',
+    badges:['PyHPO','FastAPI + React 18','OMIM / Orpha'],
+    bg:'linear-gradient(135deg,#201008 0%,#402010 100%)',
+    content:`
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🔴 The Problem</div>
+          <div class="msb-text">Rare disease diagnosis required clinicians to <strong>manually cross-reference hundreds of HPO phenotype terms against gene/disease databases</strong> (OMIM, Orpha) — a multi-hour process with no standardised scoring or ranking. Missed gene associations directly impacted diagnostic accuracy for rare disease patients.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">👥 Users</div>
+          <div class="msb-text"><strong>Clinical geneticists:</strong> Need ranked differential diagnoses from patient HPO terms.<br><strong>Genetic counsellors:</strong> Need disease-gene links explained clearly.<br><strong>Bioinformaticians:</strong> Need programmatic gene scoring APIs for pipeline integration.<br><strong>Researchers:</strong> Need hypergeometric enrichment for GWAS-style analysis.</div>
+        </div>
+        <div class="modal-story-block full">
+          <div class="msb-label">❌ Why Existing Tools Failed</div>
+          <div class="msb-text">PhenomeCentral and similar tools required manual browsing. No tool gave a single ranked gene score from patient phenotype input. Bidirectional similarity measures penalise well-annotated genes — misleading for clinical DDx. <strong>The insight: clinicians needed a one-way "how well does this patient fit this gene's phenotype?" score, not a symmetric similarity.</strong></div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">🔄 Product Workflow</div>
+      <div class="workflow">
+        <div class="wf-step"><div class="wf-num">1</div><div class="wf-content"><div class="wf-title">Term Input — HP IDs or Text</div><div class="wf-desc">User enters patient phenotype terms (HP:0000001 IDs or plain text synonyms). POST /api/resolve normalises and validates all terms, returning metadata + information content (IC) for each.</div></div></div>
+        <div class="wf-step"><div class="wf-num">2</div><div class="wf-content"><div class="wf-title">IC Profile Generation</div><div class="wf-desc">System computes Information Content profile for the entered term set — measures specificity of each phenotype relative to OMIM/Orpha/gene annotation databases. Flags sparse profiles (low mean IC = weak phenotype input).</div></div></div>
+        <div class="wf-step"><div class="wf-num">3</div><div class="wf-content"><div class="wf-title">Gene Prioritisation — Diagnostic Mode</div><div class="wf-desc"><strong>PM Decision:</strong> Implemented "diagnostic mode" (one-way similarity) rather than bidirectional BMA. For each patient term, take the best Resnik similarity match against any term in the gene's annotation set, then average. Prevents penalising well-annotated genes.</div></div></div>
+        <div class="wf-step"><div class="wf-num">4</div><div class="wf-content"><div class="wf-title">Disease Differential Diagnosis (DDx)</div><div class="wf-desc">Ranks OMIM/Orpha diseases by same diagnostic similarity. Per-gene bridge disease computed: which disease best links the patient's HPO profile to this gene's causal associations. Combined score = similarity + IC-weighted coverage + forward/reverse coverage.</div></div></div>
+        <div class="wf-step"><div class="wf-num">5</div><div class="wf-content"><div class="wf-title">Multi-Frontend Delivery</div><div class="wf-desc"><strong>Streamlit app:</strong> Rapid internal clinical use — same-day deployment, no frontend overhead.<br><strong>React 18 + FastAPI:</strong> Production SPA for external users and pipeline API integration.<br><strong>PM Decision:</strong> Shipped Streamlit first (2 days) to validate clinical utility before investing in React (4 weeks).</div></div></div>
+        <div class="wf-step"><div class="wf-num">6</div><div class="wf-content"><div class="wf-title">Research Mode — Hypergeometric Enrichment</div><div class="wf-desc">Optional research mode: HPO enrichment via hypergeometric p-values for GWAS-style cohort analysis. Separate from diagnostic mode — prevents contamination of clinical rankings with statistical enrichment logic.</div></div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🎯 Critical PM Decision: Diagnostic vs Research Mode</div>
+          <div class="msb-text">Bidirectional similarity penalises genes with many HPO annotations — making them rank lower despite strong phenotype match. <strong>Chose one-way "patient→gene" scoring for clinical DDx.</strong> This is the key differentiator from generic HPO tools.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">🎯 PM Decision: Parallel Frontend Strategy</div>
+          <div class="msb-text">Shipped Streamlit in days to get clinical feedback before building the React SPA. <strong>Validated clinical utility with real users before committing 4 weeks of frontend development.</strong> Classic lean PM — build the smallest thing that tests the hypothesis.</div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px">📊 Outcomes</div>
+      <div class="modal-outcomes">
+        <div class="mo-card"><div class="mo-val">Hours→</div><div class="mo-lbl">Seconds</div></div>
+        <div class="mo-card"><div class="mo-val">3</div><div class="mo-lbl">Frontends</div></div>
+        <div class="mo-card"><div class="mo-val">DDx</div><div class="mo-lbl">For Clinicians</div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px">🛠 Tech Stack</div>
+      <div class="modal-tools"><span class="modal-tool">PyHPO v4.x</span><span class="modal-tool">FastAPI</span><span class="modal-tool">React 18 + Vite</span><span class="modal-tool">Streamlit</span><span class="modal-tool">OMIM</span><span class="modal-tool">Orpha</span><span class="modal-tool">Decipher</span><span class="modal-tool">Tanstack Query</span></div>
+    `
+  },
+  varimat:{
+    cat:'OPERATIONAL INTELLIGENCE · QC AUTOMATION',
+    title:'VARIMAT CONTENT\nCHECK TOOL',
+    match:'90% Match',
+    badges:['Streamlit + Polars','Cloud vs On-Prem','PDF Reports'],
+    bg:'linear-gradient(135deg,#060d14 0%,#0a1a28 100%)',
+    content:`
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🔴 The Problem</div>
+          <div class="msb-text">Validating genomic pipeline outputs between <strong>cloud (LINC) and on-prem (MG) environments was entirely manual</strong> — no standardised framework, no concordance score, high error risk, and long validation cycles before clinical reports were issued. One missed variant inconsistency could affect a patient report.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">👥 Users</div>
+          <div class="msb-text"><strong>Bioinformatics QC teams:</strong> Need automated variant-level comparison between pipeline outputs.<br><strong>Clinical reporting operations:</strong> Need confidence that cloud and on-prem pipelines are consistent before issuing reports.<br><strong>Lab managers / governance:</strong> Need PDF executive reports for sign-off documentation.</div>
+        </div>
+        <div class="modal-story-block full">
+          <div class="msb-label">❌ Why Existing Process Failed</div>
+          <div class="msb-text">Manual comparison via Excel was error-prone and couldn't scale to VCF-derived tables with millions of rows. No shared definition of "concordant" vs "discordant" across teams. No audit trail. <strong>No way for non-technical clinical governance stakeholders to understand the QC result</strong> — they needed a PDF summary, not a spreadsheet.</div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">🔄 Product Workflow</div>
+      <div class="workflow">
+        <div class="wf-step"><div class="wf-num">1</div><div class="wf-content"><div class="wf-title">File Ingestion — 2–10 VariMAT Files</div><div class="wf-desc">Supports S3 download, browser upload, or local server paths. Polars reads tab-separated files with # comment handling. Sidecar .parquet caching prevents re-parsing on unchanged files. Automatic cloud/on-prem detection from filename (linc → cloud, mg → on-prem).</div></div></div>
+        <div class="wf-step"><div class="wf-num">2</div><div class="wf-content"><div class="wf-title">Variant Key Construction</div><div class="wf-desc">Each row gets a key: CHROM_START_REF_ALT. Same logical variant appearing on multiple transcript rows is handled correctly. Keys enable set operations: union, intersection, unique-per-file, missing pairs.</div></div></div>
+        <div class="wf-step"><div class="wf-num">3</div><div class="wf-content"><div class="wf-title">Multi-File QC Engine</div><div class="wf-desc">Computes: record counts, unique variant metrics, duplicate analysis, header similarity (Jaccard), variant overlap (common-in-all, per-file-only), column mismatch detection on shared variants, missing data profiles per column.</div></div></div>
+        <div class="wf-step"><div class="wf-num">4</div><div class="wf-content"><div class="wf-title">Clinical Concordance — Cloud vs On-Prem</div><div class="wf-desc"><strong>PM Decision:</strong> Designed two comparison modes — <strong>Strict</strong> (CDNA_CHG, AA_CHG, HGVS — exact match with NA normalisation) and <strong>Tolerant</strong> (numeric columns with ±tolerance%, VarTk columns with 5% tolerance). Prevents false-positive noise from legitimate floating-point differences.</div></div></div>
+        <div class="wf-step"><div class="wf-num">5</div><div class="wf-content"><div class="wf-title">QC Score — 0 to 100</div><div class="wf-desc">Heuristic subtractive score from: header similarity (Jaccard), common/total variant ratio, mismatch count thresholds, annotation inconsistency count, high-NA column count, pipeline drift penalty. Single number for stakeholder communication.</div></div></div>
+        <div class="wf-step"><div class="wf-num">6</div><div class="wf-content"><div class="wf-title">PDF Executive Report + CSV Exports</div><div class="wf-desc"><strong>PM Decision:</strong> PDF report was added specifically for non-technical clinical governance stakeholders who needed sign-off documentation. ReportLab generates professional tables. CSV exports for technical teams. Both auto-written to qc_output/ directory.</div></div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="modal-grid">
+        <div class="modal-story-block">
+          <div class="msb-label">🎯 PM Decision: Strict vs Tolerant Modes</div>
+          <div class="msb-text">A single comparison mode caused too many false positives (floating-point differences flagged as mismatches). <strong>Designed two modes to balance clinical sensitivity with analyst fatigue.</strong> Strict for annotation fields; tolerant for numeric pipeline outputs.</div>
+        </div>
+        <div class="modal-story-block">
+          <div class="msb-label">🎯 PM Decision: Polars over Pandas</div>
+          <div class="msb-text">Genomic tables can exceed millions of rows. Polars provides 5–20× faster reads with lower memory overhead. <strong>Shipped with Polars LTS-CPU variant for broad hardware compatibility</strong> — including hospital on-prem servers with no GPU.</div>
+        </div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px">📊 Outcomes</div>
+      <div class="modal-outcomes">
+        <div class="mo-card"><div class="mo-val">0-100</div><div class="mo-lbl">QC Score</div></div>
+        <div class="mo-card"><div class="mo-val">PDF</div><div class="mo-lbl">Governance Ready</div></div>
+        <div class="mo-card"><div class="mo-val">Auto</div><div class="mo-lbl">vs Manual</div></div>
+      </div>
+      <div class="modal-divider"></div>
+      <div class="msb-label" style="color:var(--red);font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:8px">🛠 Tech Stack</div>
+      <div class="modal-tools"><span class="modal-tool">Streamlit</span><span class="modal-tool">Polars LTS-CPU</span><span class="modal-tool">Pandas</span><span class="modal-tool">Plotly</span><span class="modal-tool">ReportLab</span><span class="modal-tool">boto3 / S3</span><span class="modal-tool">NumPy</span></div>
+    `
+  }
+};
+
+/* ════ ROW SCROLL HELPER ════ */
+function scrollRow(rowId, dir){
+  const row = document.getElementById(rowId);
+  if(row) row.scrollBy({left: dir * 400, behavior:'smooth'});
+}
+
+/* ════ MODAL FUNCTIONS ════ */
+function openModal(key){
+  const p=PROJECTS[key];if(!p)return;
+  document.getElementById('modal-cat').textContent=p.cat;
+  document.getElementById('modal-title').innerHTML=p.title.replace('\n','<br>');
+  document.getElementById('modal-hero-bg').style.background=p.bg;
+  const meta=document.getElementById('modal-meta');
+  meta.innerHTML=`<span class="modal-match">${p.match}</span>`+p.badges.map(b=>`<span class="modal-badge">${b}</span>`).join('');
+  document.getElementById('modal-content').innerHTML=p.content;
+  const ov=document.getElementById('modal-overlay');
+  ov.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeModalIfOverlay(e){
+  if(e.target===document.getElementById('modal-overlay'))closeModal();
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+/* ════ PROFILE SCREEN ════ */
+const profileIcons={
+  'Recruiter':'PM','Hiring Manager':'💼','Curious Explorer':'🔍','Colleague':'🤝'
+};
+
+/* ════════════════════════════════════════════════
+   CINEMATIC SOUND ENGINE — Web Audio API
+   No external files. No copyright. Just science.
+   ════════════════════════════════════════════════ */
+let _ac = null;
+function getAC(){
+  if(!_ac) _ac = new (window.AudioContext || window.webkitAudioContext)();
+  if(_ac.state === 'suspended') _ac.resume();
+  return _ac;
+}
+
+/* Profile hover — soft resonant click */
+function playHover(){
+  try{
+    const ac = getAC(), t = ac.currentTime;
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.connect(gain); gain.connect(ac.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, t);
+    osc.frequency.exponentialRampToValueAtTime(400, t + 0.08);
+    gain.gain.setValueAtTime(0.08, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.1);
+    osc.start(t); osc.stop(t + 0.1);
+  } catch(e){}
+}
+
+/* Profile SELECT — Netflix-style cinematic boom */
+function playSelect(){
+  try{
+    const ac = getAC(), t = ac.currentTime;
+
+    /* ── Layer 1: Deep cinematic THUD (like ta-dum first hit) ── */
+    const sub = ac.createOscillator();
+    const subGain = ac.createGain();
+    const subFilter = ac.createBiquadFilter();
+    sub.connect(subFilter); subFilter.connect(subGain); subGain.connect(ac.destination);
+    sub.type = 'sine';
+    subFilter.type = 'lowpass'; subFilter.frequency.value = 200;
+    sub.frequency.setValueAtTime(80, t);
+    sub.frequency.exponentialRampToValueAtTime(30, t + 0.6);
+    subGain.gain.setValueAtTime(0, t);
+    subGain.gain.linearRampToValueAtTime(0.9, t + 0.02);
+    subGain.gain.exponentialRampToValueAtTime(0.001, t + 0.65);
+    sub.start(t); sub.stop(t + 0.7);
+
+    /* ── Layer 2: Mid punch — the "dum" body ── */
+    const mid = ac.createOscillator();
+    const midGain = ac.createGain();
+    mid.connect(midGain); midGain.connect(ac.destination);
+    mid.type = 'triangle';
+    mid.frequency.setValueAtTime(160, t + 0.01);
+    mid.frequency.exponentialRampToValueAtTime(60, t + 0.5);
+    midGain.gain.setValueAtTime(0, t + 0.01);
+    midGain.gain.linearRampToValueAtTime(0.5, t + 0.04);
+    midGain.gain.exponentialRampToValueAtTime(0.001, t + 0.55);
+    mid.start(t + 0.01); mid.stop(t + 0.6);
+
+    /* ── Layer 3: Click transient — sharp attack ── */
+    const click = ac.createOscillator();
+    const clickGain = ac.createGain();
+    const clickFilter = ac.createBiquadFilter();
+    click.connect(clickFilter); clickFilter.connect(clickGain); clickGain.connect(ac.destination);
+    click.type = 'square';
+    clickFilter.type = 'highpass'; clickFilter.frequency.value = 1000;
+    click.frequency.setValueAtTime(2000, t);
+    click.frequency.exponentialRampToValueAtTime(200, t + 0.04);
+    clickGain.gain.setValueAtTime(0.15, t);
+    clickGain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+    click.start(t); click.stop(t + 0.05);
+
+    /* ── Layer 4: Noise burst (percussive texture) ── */
+    const bufLen = ac.sampleRate * 0.05;
+    const buf = ac.createBuffer(1, bufLen, ac.sampleRate);
+    const data = buf.getChannelData(0);
+    for(let i=0; i<bufLen; i++) data[i] = (Math.random()*2-1);
+    const noise = ac.createBufferSource();
+    const noiseFilter = ac.createBiquadFilter();
+    const noiseGain = ac.createGain();
+    noise.buffer = buf;
+    noise.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(ac.destination);
+    noiseFilter.type = 'bandpass'; noiseFilter.frequency.value = 800; noiseFilter.Q.value = 0.5;
+    noiseGain.gain.setValueAtTime(0.2, t);
+    noiseGain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+    noise.start(t); noise.stop(t + 0.06);
+
+    /* ── Layer 5: Reverb tail — cinematic atmosphere ── */
+    const convLen = ac.sampleRate * 1.2;
+    const convBuf = ac.createBuffer(2, convLen, ac.sampleRate);
+    for(let ch=0; ch<2; ch++){
+      const d = convBuf.getChannelData(ch);
+      for(let i=0; i<convLen; i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/convLen, 2.5);
+    }
+    const conv = ac.createConvolver();
+    conv.buffer = convBuf;
+    const convGain = ac.createGain();
+    conv.connect(convGain); convGain.connect(ac.destination);
+    convGain.gain.value = 0.18;
+    const convSrc = ac.createOscillator();
+    const convSrcGain = ac.createGain();
+    convSrc.connect(convSrcGain); convSrcGain.connect(conv);
+    convSrc.type = 'sine';
+    convSrc.frequency.setValueAtTime(100, t);
+    convSrc.frequency.exponentialRampToValueAtTime(40, t + 0.4);
+    convSrcGain.gain.setValueAtTime(0.8, t);
+    convSrcGain.gain.exponentialRampToValueAtTime(0.001, t + 0.4);
+    convSrc.start(t); convSrc.stop(t + 0.5);
+
+  } catch(e){}
+}
+
+/* Hover feedback on profile cards */
+document.querySelectorAll('.ps-profile').forEach(card=>{
+  card.addEventListener('mouseenter', playHover);
+});
+
+function enterPortfolio(name,evt){
+  playSelect();
+  /* ripple */
+  if(evt){
+    const card=evt.currentTarget;
+    const rip=document.createElement('div');
+    rip.className='ps-ripple';
+    card.appendChild(rip);
+    setTimeout(()=>rip.remove(),700);
+  }
+  const ps=document.getElementById('profile-screen');
+  const main=document.getElementById('main');
+  ps.style.opacity='0';
+  ps.style.transition='opacity .5s ease';
+  setTimeout(()=>{
+    ps.style.display='none';
+    main.style.display='block';
+    setTimeout(()=>main.classList.add('visible'),20);
+    document.getElementById('nav-profile-name').textContent=name;
+    const icon=profileIcons[name]||'👤';
+    const iconEl=document.getElementById('nav-profile-icon');
+    if(icon.length<=2&&icon.charCodeAt(0)>127){iconEl.textContent=icon;iconEl.style.fontSize='18px'}
+    else{iconEl.textContent=icon;iconEl.style.fontSize='13px'}
+    // init GSAP after main is shown
+    initPortfolio();
+  },500);
+}
+
+/* ════ SWITCH PROFILE ════ */
+function switchProfile(){
+  const ps=document.getElementById('profile-screen');
+  const main=document.getElementById('main');
+  main.classList.remove('visible');
+  setTimeout(()=>{
+    main.style.display='none';
+    ps.style.opacity='0';
+    ps.style.display='flex';
+    setTimeout(()=>{ps.style.transition='opacity .4s ease';ps.style.opacity='1';},10);
+  },300);
+}
+
+/* ════ SMOOTH SCROLL ════ */
+const isTouch='ontouchstart' in window||window.matchMedia('(hover:none)').matches;
+let smoothSc=0,smoothTg=0;
+if(!isTouch){
+  window.addEventListener('wheel',e=>{
+    if(document.getElementById('modal-overlay').classList.contains('open'))return;
+    e.preventDefault();
+    smoothTg=Math.max(0,Math.min(smoothTg+e.deltaY,document.body.scrollHeight-window.innerHeight));
+  },{passive:false});
+  (function tick(){
+    smoothSc+=(smoothTg-smoothSc)*.09;
+    if(Math.abs(smoothTg-smoothSc)<0.5)smoothSc=smoothTg;
+    window.scrollTo(0,smoothSc);
+    requestAnimationFrame(tick);
+  })();
+}
+function getS(){return isTouch?window.scrollY:smoothSc}
+function setS(v){
+  const m=document.body.scrollHeight-window.innerHeight;
+  if(isTouch)window.scrollTo({top:v,behavior:'smooth'});
+  else smoothTg=Math.max(0,Math.min(v,m));
+}
+
+/* ════ DRAG-TO-SCROLL ROWS (fixes right-scroll on desktop) ════ */
+document.querySelectorAll('.nfrow').forEach(row=>{
+  let isDown=false,startX=0,scrollL=0;
+  row.addEventListener('mousedown',e=>{
+    isDown=true;row.classList.add('dragging');
+    startX=e.pageX-row.offsetLeft;scrollL=row.scrollLeft;
+  });
+  row.addEventListener('mouseleave',()=>{isDown=false;row.classList.remove('dragging')});
+  row.addEventListener('mouseup',()=>{isDown=false;row.classList.remove('dragging')});
+  row.addEventListener('mousemove',e=>{
+    if(!isDown)return;e.preventDefault();
+    const x=e.pageX-row.offsetLeft;
+    row.scrollLeft=scrollL-(x-startX);
+  });
+  // Touch scroll is native — no override needed
+});
+
+/* ════ NAV ════ */
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('nav');
+  if(nav)nav.classList.toggle('solid',window.scrollY>55);
+});
+
+/* ════ MAIN INIT (called after profile chosen) ════ */
+function initPortfolio(){
+  // Hero entrance
+  const tl=gsap.timeline({delay:.2});
+  ['#h1','#h2','#h3','#h4','#h5','#h6','#h7'].forEach((id,i)=>{
+    tl.fromTo(id,{opacity:0,y:24},{opacity:1,y:0,duration:i===1?1.1:.75,ease:'power3.out'},i===0?0:'-=0.5');
+  });
+
+  // Parallax
+  if(!isTouch){
+    window.addEventListener('scroll',()=>{
+      const s=window.scrollY;
+      gsap.set('.hero-c',{y:s*.24,immediateRender:false});
+    });
+  }
+
+  // Scroll reveal
+  document.querySelectorAll('.reveal').forEach(el=>{
+    ScrollTrigger.create({trigger:el,start:'top 90%',onEnter:()=>el.classList.add('on')});
+  });
+
+  // Section titles
+  gsap.utils.toArray('.nfsec-title,.sec-hd').forEach(el=>{
+    gsap.fromTo(el,{opacity:0,x:-14},{opacity:1,x:0,duration:.6,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%'}});
+  });
+
+  // Counters
+  const cobs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const c=e.target;
+      const n=c.querySelector('.met-num');
+      const b=c.querySelector('.met-bar-fill');
+      const target=parseInt(c.dataset.target);
+      const bw=parseInt(b.dataset.w);
+      const dur=1800,t0=performance.now();
+      (function f(now){
+        const p=Math.min((now-t0)/dur,1);
+        n.textContent=Math.round((1-Math.pow(1-p,4))*target);
+        if(p<1)requestAnimationFrame(f);else n.textContent=target;
+      })(t0);
+      setTimeout(()=>b.style.width=bw+'%',80);
+      c.classList.add('vis');cobs.unobserve(c);
+    });
+  },{threshold:.2});
+  document.querySelectorAll('.met-card').forEach(c=>cobs.observe(c));
+
+  // Met card stagger
+  gsap.utils.toArray('.met-card').forEach((c,i)=>{
+    ScrollTrigger.create({trigger:c,start:'top 94%',onEnter:()=>gsap.to(c,{opacity:1,y:0,duration:.5,delay:i*.07,ease:'power2.out'})});
+  });
+
+  // Hero panel entrance
+  gsap.to('#h8',{opacity:1,x:0,duration:.9,delay:.8,ease:'power3.out'});
+
+  // Metric bar fills in hero panel
+  setTimeout(()=>{
+    document.querySelectorAll('.hpanel-bar-fill').forEach(bar=>{
+      bar.style.width=bar.dataset.w+'%';
+    });
+    // Animate percent values
+    document.querySelectorAll('.hpanel-met-val').forEach(el=>{
+      const target=parseInt(el.dataset.val);
+      const dur=1400,t0=performance.now();
+      (function f(now){
+        const p=Math.min((now-t0)/dur,1);
+        const ease=1-Math.pow(1-p,3);
+        el.textContent=Math.round(ease*target)+'%';
+        if(p<1)requestAnimationFrame(f);
+      })(t0);
+    });
+  },900);
+
+  // Side projects ticker
+  let spIdx=0;
+  const spItems=document.querySelectorAll('.hpsp-item');
+  if(spItems.length){
+    setInterval(()=>{
+      spItems[spIdx].classList.remove('active-sp');
+      spIdx=(spIdx+1)%spItems.length;
+      spItems[spIdx].classList.add('active-sp');
+    },2800);
+  }
+
+  // Anchor nav
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href');
+      if(id==='#')return;
+      const el=document.querySelector(id);
+      if(el){e.preventDefault();setS(el.getBoundingClientRect().top+getS()-65);}
+    });
+  });
+}
+</script>
+</body>
+</html>
